@@ -25,7 +25,7 @@ from typing import List
 
 def parse(file_name: str):
     """
-    PARTIAL
+    WORKING
 
     main function to parse the Customer headquarter locations and terrain map
     """
@@ -90,7 +90,7 @@ def parse_offices(file_lines: List[str]) -> List[List[int]]:
 
 def parse_terrain(file_lines: List[str]) -> List[List[int]]:
     """
-    UNIMPLIMENTED
+    WORKING
 
     parse the terrain information
     #   Mountains               Non-walkable cell
