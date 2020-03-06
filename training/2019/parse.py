@@ -23,7 +23,6 @@ From the problem statement:
 from typing import List
 
 
-
 def parse(file_name: str):
     """
     PARTIAL
@@ -36,13 +35,13 @@ def parse(file_name: str):
         text_lines = text_file.read().splitlines()
     
     # parse the header line
-    N, M, C, R = parse_header(text_lines[0])
+    _, _, C, _ = parse_header(text_lines[0])
 
     # parse the office information [[X Y POINTS], [X Y POINTS], ..]
-    offices = parse_offices(text_lines[1:C])
+    offices = parse_offices(text_lines[1:C+1])
 
     # parse the terrain map
-    terrain = []
+    terrain = parse_terrain(text_lines[C+1:])
 
     return offices, terrain
 
@@ -89,7 +88,7 @@ def parse_offices(file_lines: List[str]) -> List[List[int]]:
 
 
 
-def parse_terrain(file_lines: List[str]):
+def parse_terrain(file_lines: List[str]) -> List[List[int]]:
     """
     UNIMPLIMENTED
 
@@ -98,9 +97,17 @@ def parse_terrain(file_lines: List[str]):
     ~   Water                   800 points
     *   Traffic jam             200 points
     +   Dirt                    150 points
-    X   Railway level crossing  100 points
-    _   Standard terrain        70 points
+    X   Railway level crossing  120 points
+    _   Standard terrain        100 points
+    H   Highway                 70 points
     T   Railway                 50 points
-    """
 
-    raise NotImplementedError()
+    Returns [[points, points..], [points, points...]]
+    """
+    lookup = {"#":0, '~':800, '*':200, '+':150, 'X':120, '_':100, 'H':70, 'T':50}
+    result = []
+    
+    for row in file_lines:
+        result.append([lookup[x] for x in row])
+    
+    return result
