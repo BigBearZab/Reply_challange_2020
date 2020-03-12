@@ -25,7 +25,8 @@ def parse(file_name: str):
         managers - same as devs but for managers
         dev_meta - [company: str, bonus: int, skill_number: int, skills: set]
         manager_meta - [company: str, bonus: int]
-        all_pairs - []
+        all_pairs - [[name1, name2]]
+        locations - [name, (x,y), ..]
     """
 
     with open(file_name) as f:
@@ -34,7 +35,7 @@ def parse(file_name: str):
     # step 1
     W, H = parse_header(file_lines[0])
     # step 2
-    devs, managers = parse_floor(file_lines[1:H+1])
+    #devs, managers = parse_floor(file_lines[1:H+1])
     # step 3
     dev_num = int(file_lines[H+1])
     # step 4
@@ -45,9 +46,9 @@ def parse(file_name: str):
     manager_meta = parse_managers(file_lines[H+3+dev_num:])
     
     # figure out pairs
-    all_pairs = pairs(file_lines[1:H+1])
+    all_pairs, locations = pairs(file_lines[1:H+1])
 
-    return devs, managers, dev_meta, manager_meta, [tuple(p) for p in all_pairs]
+    return dev_meta, manager_meta, [tuple(p) for p in all_pairs], locations
 
 
 def parse_header(line: List[str]) -> List[int]:
@@ -120,6 +121,7 @@ def pairs(file_lines: List[str]):
     Given the floor, calculate what pairs there are
     """
     new_floor = []
+    locations = []
 
     dev_num = 0
     manager_num = 0
@@ -140,9 +142,12 @@ def pairs(file_lines: List[str]):
             elif char == "_":
                 dev_num += 1
                 new_floor[y].append(f"D{dev_num}")
+                locations.append({f"D{dev_num}":(x,y)})
             elif char == "M":
                 manager_num += 1
                 new_floor[y].append(f"M{manager_num}")
+                locations.append({f"M{manager_num}":(x,y)})
+            
     
     # now we have the floor, work out the pairs
     pairs = []
@@ -188,9 +193,9 @@ def pairs(file_lines: List[str]):
                 except:
                     pass
     
-    return set(pairs)
+    return set(pairs), locations
 
 
 
 if __name__ == "__main__":
-    devs, managers, dev_meta, manager_meta, all_pairs = parse("input/a_solar.txt")
+    dev_meta, manager_meta, all_pairs, locations = parse("input/f_glitch.txt")
