@@ -26,8 +26,5 @@ def score_calc(a,b):
         else:
             return s_inter*(s_union - s_inter)        
         
-        
-
-        
 
         
