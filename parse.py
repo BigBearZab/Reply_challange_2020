@@ -19,7 +19,13 @@ from typing import List
 def parse(file_name: str):
     """
     overall function for parsing the input file
+    Returns
+        devs - co-ords of developers, list of [(x,y), (x,y)...]
+        managers - same as devs but for managers
+        dev_meta - [company: str, bonus: int, skill_number: int, skills: set]
+        manager_meta - [company: str, bonus: int]
     """
+    
     with open(file_name) as f:
         file_lines = f.read().splitlines()
     
